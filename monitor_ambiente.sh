@@ -1,7 +1,6 @@
 #!/bin/bash
 
 echo "--- Missão 1: Segurança e Acesso ---"
-
 echo
 read -p "Escreva o caminho do diretório que deseja verificar: " dir
 echo
@@ -13,12 +12,18 @@ if [ ! -d "$dir" ]; then
 fi
 
 if [ ! -r "$dir" ] || [ ! -w "$dir" ] || [ ! -x "$dir" ]; then
-    echo "[AVISO] Permissões insuficientes para o usuário atual (r/w/x faltando)"
+    echo "[AVISO] O usuário atual NÃO possui todas as permissões (rwx) no diretório."
+    echo "Detalhes das permissões:"
+    [ -r "$dir" ] || echo " - Falta permissão de leitura (r)"
+    [ -w "$dir" ] || echo " - Falta permissão de escrita (w)"
+    [ -x "$dir" ] || echo " - Falta permissão de execução (x)"
+else
+    echo "[OK] O usuário atual possui permissões completas (rwx)."
 fi
 
-echo 
+echo
 echo "--- Missão 2 — Análise de Recursos ---"
-echo 
+echo
 
 # Pegando uso da partição do diretório analisado
 uso=$(df "$dir" | tail -1 | awk '{print $5}' | tr -d '%')
@@ -33,7 +38,7 @@ fi
 
 echo
 echo "--- Missão 3 — Monitoramento ---"
-echo 
+echo
 
 # Contagem de processos
 total=$(ps -u "$USER" | wc -l)
@@ -44,8 +49,8 @@ echo
 lista=$(ps -o pid,comm,%mem --sort=-%mem -u "$USER" | awk 'NR>1 && NR<=6')
 
 echo "$lista" | while read pid comando mem; do
-    echo "PID: $pid  |  Comando: $comando"
+    echo "PID: $pid  |  Comando: $comando | Memória: $mem"
 done
 
 echo
-echo "Fim da análise."
+echo "Fim da análise"
