@@ -41,7 +41,7 @@ echo "--- Missão 3 — Monitoramento ---"
 echo
 
 # Contagem de processos
-total=$(ps -u "$USER" | wc -l)
+total=$(ps -u "$USER" --no-headers | wc -l)
 echo "Total de processos ativos do usuário $USER: $total"
 echo
 
