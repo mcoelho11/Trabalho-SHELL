@@ -26,7 +26,7 @@ echo "--- Missão 2 — Análise de Recursos ---"
 echo
 
 # Pegando uso da partição do diretório analisado
-uso=$(df "$dir" | tail -1 | awk '{print $5}' | tr -d '%')
+uso=$(df / | tail -1 | awk '{print $5}' | tr -d '%')
 
 if [ "$uso" -gt 90 ]; then
     echo "Uso da partição: $uso% — [CRÍTICO]"
